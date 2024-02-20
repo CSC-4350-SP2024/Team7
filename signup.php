@@ -50,7 +50,10 @@ function test_input($data)
 </head>
 <body>
   <div class="logo">
-    <img src="logo2.png" alt="logo">
+    <a href="index.html">
+        <img src="logo2.3.png" alt="logo">
+        <span style="color:#01939c; font-size:26px; font-weight:bold; letter-spacing: 1px;margin-left: 20px;"></span>
+	</a>
   </div>
   <div class="container">
     <div class="login-container">
