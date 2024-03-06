@@ -64,3 +64,11 @@ label {
    height: 10rem;
    width: 10rem;
 }
+.errMsg {
+  color: red;
+  font-size: small;
+  text-align: end;
+  margin-bottom: 20px;
+  border: 1px solid red;
+  background-color: lightcoral;
+}

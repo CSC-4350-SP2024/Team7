@@ -8,12 +8,25 @@ if (isset($_POST["login"])) {
   $password = $_POST["password"];
   $sql = "SELECT * FROM users WHERE user_name = '$username'";
   $result = mysqli_query($conn, $sql);
-  $user = mysqli_fetch_assoc($result);
+  $user = mysqli_fetch_array($result, MYSQLI_ASSOC);
   if ($user) {
     if (password_verify($password, $user["user_password"])) {
+      setcookie("user_id", $user["user_id"], time()+60*60*24*30);
+      setcookie("username", $username, time()+60*60*12);
+      if (isset($_POST["remember"])) {
+        setcookie("user_name", $username, time() + 30);
+        setcookie(("user_password"), $password, time() + 30);
+      } else {
+        if (isset($_COOKIE["user_name"])) {
+          setcookie("user_name", "");
+        }
+        if (isset($_COOKIE["user_password"])) {
+          setcookie("user_password", "");
+        }
+      }
       $_SESSION["username"] = $username;
-      header("Location: index.html");
-      exit();
+      header("Location: dashboard.php");
+      die();
     } else {
       $passwordErr = "<p>Please enter password correctly.</p>";
     }
@@ -22,7 +35,6 @@ if (isset($_POST["login"])) {
   }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,13 +58,21 @@ if (isset($_POST["login"])) {
       <form action="" method="post">
         <div class="form-group">
           <label for="username">Username</label>
-          <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required>
-          <small><?php if (isset($usernameErr)) { echo $usernameErr; } ?></small>
+          <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" value="<?php if (isset($_COOKIE["user_name"])) {
+                                                                                          echo $_COOKIE["user_name"];
+                                                                                        } ?>" required>
+          <small><?php if (isset($usernameErr)) { 
+					echo $usernameErr; 
+					} ?></small>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
-          <small><?php if (isset($passwordErr)) { echo $passwordErr; } ?></small>
+          <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password"value="<?php if (isset($_COOKIE["user_password"])) {
+                                                                                              echo $_COOKIE["user_password"];
+                                                                                            } ?>" required>
+          <small><?php if (isset($passwordErr)) {
+					echo $passwordErr; 
+					} ?></small>
         </div>
         <button type="submit" name="login" class="btn">Login</button>
         <div class="form-box">
