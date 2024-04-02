@@ -1,0 +1,56 @@
+/* Appending to existing style.css for contact page styling */
+.contact-section {
+    padding: 40px 0;
+    background: #f8f8f8;
+}
+
+.contact-section .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-section h2 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.contact-section form {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-section label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.contact-section input[type="text"],
+.contact-section input[type="email"],
+.contact-section textarea {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.contact-section textarea {
+    height: 200px;
+    resize: vertical;
+}
+
+.contact-section button.btn {
+    padding: 10px 20px;
+    background: #01939c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.contact-section button.btn:hover {
+    background: #017378;
+}
