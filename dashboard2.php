@@ -13,17 +13,16 @@
 	<link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
+<div class="logo2">
+    <a href="index.html">
+      <img src="logo2.3.png" alt="logo">
+      <span style="color:#01939c; font-size:26px; font-weight:bold; letter-spacing: 1px;margin-left: 20px;"></span>
+    </a>
+  </div>
 	<form action="logout.php" method="post" class="logout-button" onclick="return onLogoutClick(); ">
         <button type="submit" id="logout">Logout</button>
     </form>
-    <div class="navbar">
-        <div class="dropdown">
-            <button class="dropbtn">Menu</button>
-            <div class="dropdown-content">
-                <a href="#">Saved Passwords</a>
-            </div>
-        </div>
-    </div>
+    
     <div class="container">
 			<?php
 			
