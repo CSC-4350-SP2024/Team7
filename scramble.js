@@ -1,140 +1,153 @@
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
+document.addEventListener('DOMContentLoaded', function() {
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
 
-const image = new Image();
-const imageUrl = new URL(window.location.href);
-const imageName = imageUrl.searchParams.get('image');
-const imagePath = 'images/' + imageName; 
+    const imageUrl = new URL(window.location.href);
+    const imageName = imageUrl.searchParams.get('image');
+    const image = new Image();
+    image.src = imageName;
 
-let pieces;
-let puzzleWidth;
-let puzzleHeight;
-let pieceWidth;
-let pieceHeight;
-let currentPiece;
-let currentDropPiece;
-let mouse;
+    let rows = 4;
+    let cols = 4;
+    let tileSize;
+    let tiles = [];
 
-image.onload = function() {
-    puzzleWidth = image.width;
-    puzzleHeight = image.height;
-    canvas.width = puzzleWidth;
-    canvas.height = puzzleHeight;
-    canvas.style.border = "1px solid black";
-    initPuzzle();
-};
+    const difficultySlider = document.getElementById('difficulty');
+    difficultySlider.addEventListener('input', updateDifficulty);
 
-function initPuzzle() {
-    pieces = [];
-    mouse = { x: 0, y: 0 };
-    currentPiece = null;
-    currentDropPiece = null;
-    drawImage();
-    buildPieces();
-}
-
-function drawImage() {
-    ctx.drawImage(image, 0, 0, puzzleWidth, puzzleHeight);
-}
-
-function buildPieces() {
-    const rows = 4;
-    const cols = 4; 
-    pieceWidth = puzzleWidth / cols;
-    pieceHeight = puzzleHeight / rows;
-
-    let i;
-    let piece;
-    let xPos = 0;
-    let yPos = 0;
-    for (let i = 0; i < rows * cols; i++) {
-        piece = {
-            sx: xPos,
-            sy: yPos,
-            xPos: xPos,
-            yPos: yPos
-        };
-        pieces.push(piece);
-        xPos += pieceWidth;
-        if (xPos >= puzzleWidth) {
-            xPos = 0;
-            yPos += pieceHeight;
-        }
-    }
-    canvas.addEventListener('mousedown', onPuzzleClick);
-}
-
-function onPuzzleClick(e) {
-    mouse.x = e.offsetX;
-    mouse.y = e.offsetY;
-    currentPiece = checkPieceClicked();
-    if (currentPiece !== null) {
-        canvas.addEventListener('mousemove', updatePuzzle);
-        canvas.addEventListener('mouseup', pieceDropped);
-    }
-}
-
-function checkPieceClicked() {
-    for (const piece of pieces) {
-        if (
-            mouse.x < piece.xPos ||
-            mouse.x > piece.xPos + pieceWidth ||
-            mouse.y < piece.yPos ||
-            mouse.y > piece.yPos + pieceHeight
-        ) {
-            continue;
-        } else {
-            return piece;
-        }
-    }
-    return null;
-}
-
-function updatePuzzle(e) {
-    currentPiece.xPos = e.offsetX - pieceWidth / 2;
-    currentPiece.yPos = e.offsetY - pieceHeight / 2;
-    drawImage();
-    drawPieces();
-}
-
-function drawPieces() {
-    for (const piece of pieces) {
-        ctx.drawImage(
-            image,
-            piece.sx,
-            piece.sy,
-            pieceWidth,
-            pieceHeight,
-            piece.xPos,
-            piece.yPos,
-            pieceWidth,
-            pieceHeight
-        );
-        ctx.strokeRect(piece.xPos, piece.yPos, pieceWidth, pieceHeight);
-    }
-}
-
-function pieceDropped() {
-    canvas.removeEventListener('mousemove', updatePuzzle);
-    canvas.removeEventListener('mouseup', pieceDropped);
-}
-
-image.src = imagePath; 
-
-
-
-function savePuzzleState() {
-    const puzzleState = getPuzzleState(); // function to get the current state of the puzzle
-
-    const serializedState = JSON.stringify(puzzleState);
-
-    const userId = getUserId(); 
-
-    const data = {
-        userId: userId,
-        puzzleState: serializedState
+    image.onload = function() {
+        updateDifficulty(); 
+        drawTiles(tiles);
+        canvas.addEventListener('mousedown', handleMouseDown);
+        canvas.addEventListener('mousemove', handleMouseMove);
+        canvas.addEventListener('mouseup', handleMouseUp);
     };
 
+    function updateDifficulty() {
+        const difficulty = parseInt(difficultySlider.value);
+        rows = difficulty;
+        cols = difficulty;
+        tileSize = canvas.width / cols;
+        tiles = createTiles();
+        drawTiles(tiles);
+    }
+
+    function createTiles() {
+        const newTiles = [];
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < cols; j++) {
+                newTiles.push({
+                    row: i,
+                    col: j,
+                    x: j * tileSize,
+                    y: i * tileSize,
+                    isDragging: false
+                });
+            }
+        }
+        return newTiles;
+    }
+
+    function drawTiles(tiles) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        tiles.forEach(tile => {
+            ctx.drawImage(
+                image,
+                tile.col * (image.width / cols), tile.row * (image.height / rows), image.width / cols, image.height / rows,
+                tile.x, tile.y, tileSize, tileSize
+            );
+            ctx.strokeStyle = 'black'; 
+            ctx.lineWidth = 1;
+            ctx.strokeRect(tile.x, tile.y, tileSize, tileSize);
+        });
+    }
+
+    let selectedTile = null;
+    let offsetX, offsetY;
+
+    function handleMouseDown(event) {
+        const mouseX = event.offsetX;
+        const mouseY = event.offsetY;
+        selectedTile = tiles.find(tile => mouseX >= tile.x && mouseX <= tile.x + tileSize && mouseY >= tile.y && mouseY <= tile.y + tileSize);
+        if (selectedTile) {
+            selectedTile.isDragging = true;
+            offsetX = mouseX - selectedTile.x;
+            offsetY = mouseY - selectedTile.y;
+        }
+    }
+
+    function handleMouseMove(event) {
+        if (!selectedTile) return;
+        const mouseX = event.offsetX;
+        const mouseY = event.offsetY;
+        selectedTile.x = mouseX - offsetX;
+        selectedTile.y = mouseY - offsetY;
+        drawTiles(tiles);
+    }
+
+    function handleMouseUp() {
+        if (!selectedTile) return;
+        selectedTile.isDragging = false;
+        const nearestTile = findNearestTile(selectedTile);
+        if (nearestTile && nearestTile !== selectedTile) {
+            swapTiles(selectedTile, nearestTile);
+            drawTiles(tiles);
+        }
+        selectedTile = null;
+    }
+
+    function findNearestTile(tile) {
+        let minDistance = Number.MAX_VALUE;
+        let nearestTile = null;
+        tiles.forEach(otherTile => {
+            if (otherTile !== tile) {
+                const distance = Math.sqrt(Math.pow(otherTile.x - tile.x, 2) + Math.pow(otherTile.y - tile.y, 2));
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    nearestTile = otherTile;
+                }
+            }
+        });
+        return nearestTile;
+    }
+
+    function swapTiles(tile1, tile2) {
+        const temp = { ...tile1 };
+        tile1.x = tile2.x;
+        tile1.y = tile2.y;
+        tile2.x = temp.x;
+        tile2.y = temp.y;
+    }
+
+    function getPuzzleState() {
+    const puzzleState = {
+        rows: rows,
+        cols: cols,
+        tileSize: tileSize,
+        image: canvas.toDataURL() 
+    };
+    return puzzleState;
+}
+
+
+    function getUserId() {
+        const cookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('user_id='));
+        if (cookie) {
+            return cookie.split('=')[1];
+        } else {
+            return null;
+        }
+    }
+
+function savePuzzleState() {
+    const puzzleState = getPuzzleState();
+    const userId = getUserId();
+    const imageData = canvas.toDataURL();
+    const data = {
+        userId: userId,
+        puzzleState: puzzleState,
+        imageData: imageData
+    };
     fetch('save_puzzle_state.php', {
         method: 'POST',
         headers: {
@@ -145,6 +158,7 @@ function savePuzzleState() {
     .then(response => {
         if (response.ok) {
             console.log('Puzzle state saved successfully.');
+            window.location.href = 'dashboard2.php';
         } else {
             console.error('Failed to save puzzle state.');
         }
@@ -153,3 +167,7 @@ function savePuzzleState() {
         console.error('Error:', error);
     });
 }
+
+
+    document.getElementById('saveButton').addEventListener('click', savePuzzleState);
+});
