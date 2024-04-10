@@ -1,21 +1,53 @@
 <?php
-
 include("connectDB.php");
 
-// sql to create table
-$users = "CREATE TABLE IF NOT EXISTS users (
-    user_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_name VARCHAR(100) NOT NULL,
-    user_password VARCHAR(255) NOT NULL, -- Increase the length for hashed passwords
-    user_email VARCHAR(100) NOT NULL
-)";
+$username = test_input($_POST["username"]);
+$password = test_input($_POST["password"]);
+$confirm_pass = test_input($_POST["confirmPassword"]);
+$email = test_input($_POST["email"]);
+$type = $_POST["type"];
 
-if ($conn->query($users) === TRUE) {
-    echo "Table USERS created successfully";
-} else {
-    echo "Error creating table: " . $conn->error;
+$passwordHash = password_hash($password, PASSWORD_DEFAULT);
+$name = "SELECT * FROM users WHERE user_name = '$username'";
+$name_result = mysqli_query($conn, $name);
+$user_row = mysqli_num_rows($name_result);
+
+$pass = "SELECT user_password FROM users ";
+$pass_result = mysqli_query($conn, $pass);
+$pass_row = mysqli_num_rows($pass_result);
+
+$email_address = "SELECT * FROM users WHERE user_email = '$email'";
+$email_result = mysqli_query($conn, $email_address);
+$email_row = mysqli_num_rows($email_result);
+
+if ($user_row > 0) {
+  $usernameErr = " Username already used.";
 }
 
-$conn->close();
+if ($pass_result) {
+  while($row = mysqli_fetch_assoc($pass_result)){
+    if(password_verify($password, $row["user_password"])){
+      $passwordErr = " Password already used.";
+    }
+    
+  }
+}
 
-?>
+if ($email_row > 0 ) {
+  $emailErr = " Email already used.";
+}
+
+if ($user_row == 0 && $passwordErr == "" && $email_row == 0) {
+  $sql = "INSERT INTO users (user_name, user_password, user_email, user_type) VALUES ('$username', '$passwordHash', '$email', '$type')";
+  mysqli_query($conn, $sql);
+  header("Location: login.php");
+}
+
+include("signup.php");
+function test_input($data)
+{
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
