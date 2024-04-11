@@ -1,6 +1,7 @@
 * {
-    padding: 0;
+  padding: 10px;
 }
+
 body {
   font-family: Arial, sans-serif;
   color: #fff;
@@ -9,6 +10,7 @@ body {
   background: linear-gradient(to bottom, #0e4c92, #ffea61);
   transition: background 0.5s ease;
 }
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -70,7 +72,7 @@ p {
   border-radius: 25px;
   font-size: 1rem;
   cursor: pointer;
-  color: #000;  
+  color: #000;
   transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
@@ -79,16 +81,18 @@ p {
   color: #ffeba7;
 }
 
-.logo{
-   padding:1vh 1vw 0.5vh 1vw;
+.logo {
+  padding: 1vh 1vw 0.5vh 1vw;
 }
+
 .logo img {
-   height: 10rem;
-   width: 10rem;
+  height: 10rem;
+  width: 10rem;
 }
+
 .nav-links {
   display: flex;
-  list-style: none; 
+  list-style: none;
   width: calc(100% - 10rem);
   padding: 0 5rem;
   justify-content: space-between;
@@ -100,12 +104,12 @@ p {
 .nav-links li a {
   text-decoration: none;
   margin: 0 0.7vw;
-  color: #ffffff; 
-  transition: color 0.3s ease; 
+  color: #ffffff;
+  transition: color 0.3s ease;
 }
 
 .nav-links li a:hover {
-  color: #61DAFB; 
+  color: #61DAFB;
 }
 
 .login-button {
@@ -116,83 +120,85 @@ p {
   margin-left: 2vw;
   font-size: 1rem;
   cursor: pointer;
-  color: #ffeba7; 
-  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease; 
+  color: #ffeba7;
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .login-button:hover {
-  color: #131418; 
-  background-color: #f2f5f7; 
-  border-color: #f2f5f7; 
+  color: #131418;
+  background-color: #f2f5f7;
+  border-color: #f2f5f7;
 }
-.main {
-    width: 100%;
 
-    background-position: center;
-    background-size: cover;
-    height: 100vh;
-	margin-top: 0px;
+.main {
+  width: 100%;
+
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  margin-top: 0px;
 }
 
 .content {
-    width: 1200px;
-    height: auto;
-    margin: auto;
-    color: #fff;
-    position: relative;
+  width: 1200px;
+  height: auto;
+  margin: auto;
+  color: #fff;
+  position: relative;
 }
 
 .content .par {
-    padding-left: 20px;
-    padding-bottom: 25px;
-    font-family: Arial;
-    letter-spacing: 1.2px;
-    line-height: 30px;
+  padding-left: 20px;
+  padding-bottom: 25px;
+  font-family: Arial;
+  letter-spacing: 1.2px;
+  line-height: 30px;
 }
 
 .content h1 {
-    font-family: 'Times New Roman';
-    font-size: 50px;
-    padding-left: 20px;
-    margin-top: 4%;
-    letter-spacing: 2px;
+  font-family: 'Times New Roman';
+  font-size: 50px;
+  padding-left: 20px;
+  margin-top: 4%;
+  letter-spacing: 2px;
 }
 
 .content .cn {
-    width: 160px;
-    height: 40px;
-    background: #ff7200;
-    border: none;
-    margin-bottom: 10px;
-    margin-left: 20px;
-    font-size: 18px;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: .4s ease;
+  width: 160px;
+  height: 40px;
+  background: #ff7200;
+  border: none;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  font-size: 18px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: .4s ease;
 
 }
 
 .content .cn a {
-    text-decoration: none;
-    color: #000;
-    transition: .3s ease;
+  text-decoration: none;
+  color: #000;
+  transition: .3s ease;
 }
 
 .cn:hover {
-    background-color: #fff;
+  background-color: #fff;
 }
 
 .content span {
-    color: #0e4c92;
-    font-size: 65px
+  color: #0e4c92;
+  font-size: 65px
 }
+
 .gif-container {
-    width: 250px;
-    height: 380px;
-    position: absolute;
-    top: -20px;
-    left: 870px;
-    transform: translate(0%,-5%);
-    border-radius: 10px;
-    padding: 25px;
+  width: 250px;
+  height: 380px;
+  position: absolute;
+  top: -20px;
+  left: 870px;
+  transform: translate(0%, -5%);
+  border-radius: 10px;
+  padding: 25px;
 }
