@@ -104,108 +104,6 @@ h1 {
     justify-content: flex-start;
 }
 
-
-.welcome-text {
-    position: absolute;
-    top: 20px; 
-    left: 20px;
-    margin: 0;
-    color: #333;
-}
-
-#delete-button, #edit-button, #delete-button input {
-    font-size: 20px;
-    text-align: center;
-}
-
-#delete-button, #edit-button, #dashboard-button{
-    border-radius: 4px;
-    height: 40px;
-    min-width: 60px;
-    padding-left: 10px;
-    padding-right: 10px;
-    line-height: 40px;
-    border: 1px solid black;
-}
-
-#delete-button {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-}
-
-#delete-button input {
-    border: none;
-    font-weight: bold;
-    height: 100%;
-    width: 100%;
-}
-
-#delete-button, #delete-button input {
-    background-color: red;
-}
-
-#edit-button, #dashboard-button {
-    position: absolute;
-    top: 20px;
-    background-color: cornflowerblue;
-}
-
-#edit-button {
-    right: 120px;
-}
-
-#dashboard-button {
-    left: 20px;
-}
-
-#delete-button, #delete-button input, #edit-button, #edit-button b, #dashboard-button, #dashboard-button b {
-    cursor: pointer;
-}
-.navbar {
-    background-color: transparent;
-    color: #fff;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropbtn {
-    background-color: transparent;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #333;
-    min-width: 160px;
-    z-index: 1;
-}
-
-.dropdown-content a {
-    color: transparent;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content a:hover {
-    background-color: #444;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
 .card {
     background-color: #fff;
     border-radius: 10px;
@@ -215,6 +113,7 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-size: cover;
 }
 
 .plus {
@@ -226,6 +125,7 @@ h1 {
 .card:hover {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
+
 .container {
     max-width: 1200px;
     margin: 0 auto;

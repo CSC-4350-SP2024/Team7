@@ -8,7 +8,7 @@ if (!isset($_COOKIE["user_id"]) || $_COOKIE["user_id"] < 0) {
 
 function saveScreenshot($base64ImageData) {
     $filename = uniqid() . '.png';
-    $imageData = base64_decode($base64ImageData);
+    $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64ImageData));
     $filepath = 'saved_puzzle_images/' . $filename;
     file_put_contents($filepath, $imageData);
     return $filepath;

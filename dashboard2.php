@@ -27,35 +27,34 @@ if (!isset($_COOKIE["user_id"]) || $_COOKIE["user_id"] < 0) {
     <form action="logout.php" method="post" class="logout-button" onclick="return onLogoutClick(); ">
         <button type="submit" id="logout">Logout</button>
     </form>
-<?php
-include("connectToDB.php");
+    <div id="grid-container">
+        <?php
+        include("connectToDB.php");
 
-if (!isset($_COOKIE["user_id"]) || $_COOKIE["user_id"] < 0) {
-    header("Location: login.php");
-    exit;
-}
+        if (!isset($_COOKIE["user_id"]) || $_COOKIE["user_id"] < 0) {
+            header("Location: login.php");
+            exit;
+        }
 
-$sql = "SELECT * FROM saved_puzzle_states WHERE user_id = " . $_COOKIE["user_id"];
-$result = $conn->query($sql);
+        $sql = "SELECT * FROM saved_puzzle_states WHERE user_id = " . $_COOKIE["user_id"];
+        $result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        echo "<div class='col-md-4 mb-4'>";
-        echo "<div class='card' style='background-image: url(\"" . $row['image_path'] . "\")'>";
-        echo "</div>";
-        echo "</div>";
-    }
-} else {
-    echo "<div class='col-12 text-center'><p>No saved puzzle images found.</p></div>";
-}
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo "<div class='card' style='background-image: url(\"" . $row['image_path'] . "\")'></div>";
+            }
+        } else {
+            echo "<div class='col-12 text-center'><p>No saved puzzle images found.</p></div>";
+        }
 
-$conn->close();
-?>
-        <div class="card">
-            <a href="add_password.php"><span class="plus">+</span></a>
-        </div>
+        $conn->close();
+        ?>
+    </div>
+    <div class="card">
+        <a href="add_password.php"><span class="plus">+</span></a>
     </div>
 </body>
 </html>
+
 
 
